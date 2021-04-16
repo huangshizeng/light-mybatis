@@ -14,7 +14,11 @@ public interface UserMapper {
 
     boolean add(@Param("id") int id, @Param("name") String name);
 
+    boolean update(@Param("id") int id, @Param("name") String name);
+
     User getById(@Param("id") int id);
+
+    boolean deleteById(@Param("id") int id);
 
     List<User> getAll();
 }

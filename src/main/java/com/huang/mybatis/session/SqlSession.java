@@ -30,6 +30,8 @@ public interface SqlSession extends Closeable {
 
     int update(String statement, Map<String, Object> params);
 
+    int delete(String statement, Map<String, Object> parameters);
+
     <T> T getMapper(Class<T> type);
 
     Configuration getConfiguration();

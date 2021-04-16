@@ -79,6 +79,11 @@ public class DefaultSqlSession implements SqlSession {
     }
 
     @Override
+    public int delete(String statement, Map<String, Object> parameters) {
+        return update(statement, parameters);
+    }
+
+    @Override
     public <T> T getMapper(Class<T> type) {
         return configuration.getMapper(type, this);
     }

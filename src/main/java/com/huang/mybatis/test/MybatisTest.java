@@ -6,7 +6,6 @@ import com.huang.mybatis.session.SqlSessionFactory;
 import com.huang.mybatis.session.SqlSessionFactoryBuilder;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * @author: hsz
@@ -22,10 +21,10 @@ public class MybatisTest {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-//        User user = mapper.getById(1);
-//        System.out.println(user);
-        System.out.println(mapper.add(3, "指尖凉"));
-        List<User> users = mapper.getAll();
-        users.forEach(System.out::println);
+        mapper.getAll().forEach(System.out::println);
+        System.out.println(mapper.update(3, "zhijianliang"));
+        mapper.getAll().forEach(System.out::println);
+        System.out.println(mapper.deleteById(3));
+        mapper.getAll().forEach(System.out::println);
     }
 }

@@ -11,4 +11,12 @@
     <insert id="add">
         insert into user(id, name) values (#{id}, #{name})
     </insert>
+
+    <update id="update">
+        update user set name = #{name} where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
 </mapper>

@@ -41,18 +41,16 @@ public class MapperMethod {
                 result = rowCountResult(sqlSession.insert(statement.getId(), parameters));
                 break;
             }
-//            // 更新
-//            case UPDATE: {
-//                Object param = method.convertArgsToSqlCommandParam(args);
-//                result = rowCountResult(sqlSession.update(command.getName(), param));
-//                break;
-//            }
-//            // 删除
-//            case DELETE: {
-//                Object param = method.convertArgsToSqlCommandParam(args);
-//                result = rowCountResult(sqlSession.delete(command.getName(), param));
-//                break;
-//            }
+            // 更新
+            case UPDATE: {
+                result = rowCountResult(sqlSession.update(statement.getId(), parameters));
+                break;
+            }
+            // 删除
+            case DELETE: {
+                result = rowCountResult(sqlSession.delete(statement.getId(), parameters));
+                break;
+            }
             // 查询，只支持单条查询和多条list查询
             case SELECT:
                 // 判断返回值类型
