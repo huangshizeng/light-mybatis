@@ -7,4 +7,8 @@
     <select id="getById" parameterType="int" resultType="com.huang.mybatis.test.User">
         select * from user where id = #{id}
     </select>
+
+    <insert id="add">
+        insert into user(id, name) values (#{id}, #{name})
+    </insert>
 </mapper>

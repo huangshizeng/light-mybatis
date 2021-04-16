@@ -25,12 +25,7 @@ public class SimpleExecutor extends BaseExecutor {
     }
 
     @Override
-    public int update(MappedStatement ms, Map<String, Object> parameter) throws SQLException {
-        return 0;
-    }
-
-    @Override
-    public <E> List<E> query(MappedStatement ms, Map<String, Object> parameter) throws SQLException {
+    public <E> List<E> query(MappedStatement ms, Map<String, Object> parameter) {
         BoundSql boundSql = new BoundSql(ms.getConfiguration(), ms.getSql(), parameter);
         return query(ms, parameter, boundSql);
     }
@@ -44,6 +39,28 @@ public class SimpleExecutor extends BaseExecutor {
             stmt = prepareStatement(handler);
             // 最终执行sql并处理查询结果
             return handler.query(stmt);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            closeStatement(stmt);
+        }
+    }
+
+    @Override
+    public int update(MappedStatement ms, Map<String, Object> parameter) {
+        BoundSql boundSql = new BoundSql(ms.getConfiguration(), ms.getSql(), parameter);
+        return update(ms, parameter, boundSql);
+    }
+
+    @Override
+    protected int doUpdate(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql) {
+        Statement stmt = null;
+        try {
+            StatementHandler handler = new PreparedStatementHandler(configuration, ms, this, boundSql);
+            // 创建Statement，预编译sql并设置参数
+            stmt = prepareStatement(handler);
+            // 最终执行sql并处理查询结果
+            return handler.update(stmt);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         } finally {

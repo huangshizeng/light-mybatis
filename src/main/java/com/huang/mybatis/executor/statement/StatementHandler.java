@@ -18,4 +18,6 @@ public interface StatementHandler {
     void parameterize(Statement stmt) throws SQLException;
 
     <E> List<E> query(Statement stmt) throws SQLException, InstantiationException, IllegalAccessException;
+
+    int update(Statement stmt) throws SQLException;
 }

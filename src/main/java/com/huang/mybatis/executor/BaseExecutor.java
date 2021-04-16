@@ -31,4 +31,11 @@ public abstract class BaseExecutor implements Executor {
     }
 
     protected abstract <E> List<E> doQuery(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql);
+
+    @Override
+    public int update(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql) {
+        return doUpdate(ms, parameter, boundSql);
+    }
+
+    protected abstract int doUpdate(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql);
 }

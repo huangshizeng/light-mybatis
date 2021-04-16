@@ -24,6 +24,7 @@ public class MybatisTest {
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 //        User user = mapper.getById(1);
 //        System.out.println(user);
+        System.out.println(mapper.add(3, "指尖凉"));
         List<User> users = mapper.getAll();
         users.forEach(System.out::println);
     }

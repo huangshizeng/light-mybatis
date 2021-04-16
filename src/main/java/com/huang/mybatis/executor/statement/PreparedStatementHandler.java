@@ -62,6 +62,13 @@ public class PreparedStatementHandler implements StatementHandler {
     public <E> List<E> query(Statement stmt) throws SQLException, InstantiationException, IllegalAccessException {
         PreparedStatement ps = (PreparedStatement) stmt;
         ResultSet resultSet = ps.executeQuery();
+        // 处理结果集
         return resultSetHandler.handleResultSets(resultSet);
+    }
+
+    @Override
+    public int update(Statement stmt) throws SQLException {
+        PreparedStatement ps = (PreparedStatement) stmt;
+        return ps.executeUpdate();
     }
 }

@@ -27,9 +27,6 @@ public class DefaultSqlSession implements SqlSession {
 
     /**
      * 查询单条
-     *
-     * @param statement statement id
-     * @return Mapped object
      */
     @Override
     public <T> T selectOne(String statement) {
@@ -38,10 +35,6 @@ public class DefaultSqlSession implements SqlSession {
 
     /**
      * 查询单条
-     *
-     * @param statement  Unique identifier matching the statement to use.
-     * @param parameters A parameter object to pass to the statement.
-     * @return Mapped object
      */
     @Override
     public <T> T selectOne(String statement, Map<String, Object> parameters) {
@@ -55,24 +48,11 @@ public class DefaultSqlSession implements SqlSession {
         }
     }
 
-    /**
-     * Retrieve a list of mapped objects from the statement key.
-     *
-     * @param statement Unique identifier matching the statement to use.
-     * @return List of mapped object
-     */
     @Override
     public <E> List<E> selectList(String statement) {
         return null;
     }
 
-    /**
-     * Retrieve a list of mapped objects from the statement key and parameter.
-     *
-     * @param statement  Unique identifier matching the statement to use.
-     * @param parameters A parameter object to pass to the statement.
-     * @return List of mapped object
-     */
     @Override
     public <E> List<E> selectList(String statement, Map<String, Object> parameters) {
         MappedStatement mappedStatement = configuration.getMappedStatement(statement);
@@ -83,12 +63,21 @@ public class DefaultSqlSession implements SqlSession {
         }
     }
 
-    /**
-     * Retrieves a mapper.
-     *
-     * @param type Mapper interface class
-     * @return a mapper bound to this SqlSession
-     */
+    @Override
+    public int insert(String statement, Map<String, Object> parameters) {
+        return update(statement, parameters);
+    }
+
+    @Override
+    public int update(String statement, Map<String, Object> parameters) {
+        MappedStatement mappedStatement = configuration.getMappedStatement(statement);
+        try {
+            return executor.update(mappedStatement, parameters);
+        } catch (Exception ex) {
+            throw new RuntimeException("Error updating database.  Cause: " + ex, ex);
+        }
+    }
+
     @Override
     public <T> T getMapper(Class<T> type) {
         return configuration.getMapper(type, this);
@@ -99,19 +88,6 @@ public class DefaultSqlSession implements SqlSession {
         return this.configuration;
     }
 
-    /**
-     * Closes this stream and releases any system resources associated
-     * with it. If the stream is already closed then invoking this
-     * method has no effect.
-     *
-     * <p> As noted in {@link AutoCloseable#close()}, cases where the
-     * close may fail require careful attention. It is strongly advised
-     * to relinquish the underlying resources and to internally
-     * <em>mark</em> the {@code Closeable} as closed, prior to throwing
-     * the {@code IOException}.
-     *
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     public void close() throws IOException {
 

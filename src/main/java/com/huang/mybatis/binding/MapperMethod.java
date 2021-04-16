@@ -31,15 +31,16 @@ public class MapperMethod {
      * 真正执行sql
      */
     public Object execute(SqlSession sqlSession, Object[] args) {
-        Object result = null;
+        Object result;
+        // 解析参数，将参数封装成map
+        Map<String, Object> parameters = convertArgsToParam(args);
         // sql类型
         switch (statement.getSqlCommandType()) {
             // 插入
-//            case INSERT: {
-//                Object param = method.convertArgsToSqlCommandParam(args);
-//                result = rowCountResult(sqlSession.insert(command.getName(), param));
-//                break;
-//            }
+            case INSERT: {
+                result = rowCountResult(sqlSession.insert(statement.getId(), parameters));
+                break;
+            }
 //            // 更新
 //            case UPDATE: {
 //                Object param = method.convertArgsToSqlCommandParam(args);
@@ -57,16 +58,12 @@ public class MapperMethod {
                 // 判断返回值类型
                 if (Collection.class.isAssignableFrom(method.getReturnType())) {
                     // 返回多条
-                    // 解析参数，将参数封装成map
-                    Map<String, Object> params = convertArgsToParam(args);
                     // selectOne底层也是通过selectList，只是获取第一个结果
-                    result = sqlSession.selectList(statement.getId(), params);
+                    result = sqlSession.selectList(statement.getId(), parameters);
                 } else {
                     // 返回单行
-                    // 解析参数，将参数封装成map
-                    Map<String, Object> params = convertArgsToParam(args);
                     // selectOne底层也是通过selectList，只是获取第一个结果
-                    result = sqlSession.selectOne(statement.getId(), params);
+                    result = sqlSession.selectOne(statement.getId(), parameters);
                 }
                 break;
             default:
@@ -75,6 +72,23 @@ public class MapperMethod {
         if (result == null && method.getReturnType().isPrimitive()) {
             throw new RuntimeException("Mapper method '" + statement.getId()
                     + " attempted to return null from a method with a primitive return type (" + method.getReturnType() + ").");
+        }
+        return result;
+    }
+
+    private Object rowCountResult(int rowCount) {
+        Class<?> returnType = method.getReturnType();
+        final Object result;
+        if (void.class.equals(returnType)) {
+            result = null;
+        } else if (Integer.class.equals(returnType) || Integer.TYPE.equals(returnType)) {
+            result = rowCount;
+        } else if (Long.class.equals(returnType) || Long.TYPE.equals(returnType)) {
+            result = (long) rowCount;
+        } else if (Boolean.class.equals(returnType) || Boolean.TYPE.equals(returnType)) {
+            result = rowCount > 0;
+        } else {
+            throw new RuntimeException("Mapper method '" + statement.getId() + "' has an unsupported return type: " + returnType);
         }
         return result;
     }

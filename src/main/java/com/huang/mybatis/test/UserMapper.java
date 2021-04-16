@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface UserMapper {
 
+    boolean add(@Param("id") int id, @Param("name") String name);
+
     User getById(@Param("id") int id);
 
     List<User> getAll();

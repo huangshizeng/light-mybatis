@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * @author: hsz
  * @date: 2021/4/15 18:12
- * @description:
+ * @description: 对sql解析后的封装
  */
 
 @Getter

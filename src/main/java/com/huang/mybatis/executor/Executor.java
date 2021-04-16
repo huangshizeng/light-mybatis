@@ -20,4 +20,6 @@ public interface Executor {
     <E> List<E> query(MappedStatement ms, Map<String, Object> parameter) throws SQLException;
 
     <E> List<E> query(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql) throws SQLException;
+
+    int update(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql) throws SQLException;
 }
