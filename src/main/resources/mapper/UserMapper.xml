@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="com.huang.mybatis.test.UserMapper">
+
+    <select id="getAll" resultType="com.huang.mybatis.test.User">
+        select * from user
+    </select>
+    <select id="getById" parameterType="int" resultType="com.huang.mybatis.test.User">
+        select * from user where id = #{id}
+    </select>
+</mapper>
