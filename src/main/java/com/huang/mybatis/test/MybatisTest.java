@@ -21,10 +21,7 @@ public class MybatisTest {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        mapper.getAll().forEach(System.out::println);
-        System.out.println(mapper.update(3, "zhijianliang"));
-        mapper.getAll().forEach(System.out::println);
-        System.out.println(mapper.deleteById(3));
-        mapper.getAll().forEach(System.out::println);
+        System.out.println(mapper.getById(1));
+        System.out.println(mapper.getById(2));
     }
 }

@@ -25,12 +25,6 @@ public class SimpleExecutor extends BaseExecutor {
     }
 
     @Override
-    public <E> List<E> query(MappedStatement ms, Map<String, Object> parameter) {
-        BoundSql boundSql = new BoundSql(ms.getConfiguration(), ms.getSql(), parameter);
-        return query(ms, parameter, boundSql);
-    }
-
-    @Override
     protected <E> List<E> doQuery(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql) {
         Statement stmt = null;
         try {
